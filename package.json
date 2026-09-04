@@ -1,0 +1,12 @@
+{
+  "name": "neuroedulab-gemini-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Neuroedulab: ecosistema educativo digital con tutor pedagógico conectado a Gemini API.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
