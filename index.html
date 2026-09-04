@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NeuroEduca 360 — ecosistema educativo digital sobre trastornos del neurodesarrollo, recursos abiertos, gamificación, multimedia, DUA e IA generativa.">
+<title>NeuroEduca 360 | Ecosistema Educativo Digital</title>
+<style>
+:root{
+  --navy:#102a43; --blue:#1769aa; --cyan:#16b8c8; --violet:#6d5dfc;
+  --gold:#f2b84b; --mint:#38c99b; --rose:#f06a8d; --bg:#f4f8fc;
+  --card:#ffffff; --ink:#17324d; --muted:#60758a; --line:#dce7f0;
+  --shadow:0 18px 50px rgba(16,42,67,.12); --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+a{color:inherit}
+button{font:inherit}
+.hero{position:relative;overflow:hidden;background:
+ radial-gradient(circle at 15% 20%,rgba(22,184,200,.28),transparent 28%),
+ radial-gradient(circle at 85% 10%,rgba(109,93,252,.30),transparent 30%),
+ linear-gradient(135deg,#0d2238 0%,#123d61 50%,#1769aa 100%);color:#fff;padding:34px 22px 72px}
+.hero:after{content:"";position:absolute;inset:auto -10% -90px -10%;height:180px;background:var(--bg);border-radius:50% 50% 0 0/45% 45% 0 0}
+.topbar,.hero-inner,.wrap{max-width:1180px;margin:auto;position:relative;z-index:2}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:54px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.3px}
+.brand-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--violet));box-shadow:0 8px 30px rgba(22,184,200,.3)}
+.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:#bdeef3}
+.hero h1{font-size:clamp(2.4rem,6vw,5.2rem);line-height:.98;margin:12px 0 20px;max-width:900px;letter-spacing:-.055em}
+.hero h1 span{color:#75e4d0}
+.hero p.lead{font-size:clamp(1rem,2vw,1.3rem);max-width:780px;color:#e5f0f8;margin:0 0 28px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border:0;border-radius:14px;padding:13px 18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:.2s transform,.2s box-shadow}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:#fff;color:var(--navy);box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.btn-ghost{background:rgba(255,255,255,.11);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.score-pill{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);padding:9px 13px;border-radius:999px;font-weight:800}
+.nav{position:sticky;top:0;z-index:50;background:rgba(244,248,252,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1180px;margin:auto;display:flex;gap:6px;overflow:auto;padding:10px 14px}
+.tab{border:0;background:transparent;color:var(--muted);padding:11px 14px;border-radius:12px;white-space:nowrap;font-weight:800;cursor:pointer}
+.tab.active,.tab:hover{background:#fff;color:var(--blue);box-shadow:0 6px 18px rgba(16,42,67,.08)}
+main{max-width:1180px;margin:0 auto;padding:42px 18px 70px}
+.section{display:none;animation:fade .35s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}
+.section-head h2{font-size:clamp(1.8rem,3vw,2.7rem);line-height:1.05;margin:0}
+.section-head p{color:var(--muted);max-width:650px;margin:7px 0 0}
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:850px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 8px 28px rgba(16,42,67,.05)}
+.card:hover{box-shadow:var(--shadow)}
+.card h3{margin:7px 0 8px;line-height:1.15}
+.card p{color:var(--muted);margin:7px 0}
+.icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:1.35rem;background:#eef8fb}
+.tag{display:inline-flex;padding:5px 9px;border-radius:999px;background:#edf3ff;color:#315a9b;font-size:.75rem;font-weight:800;margin:3px}
+.resource{display:flex;flex-direction:column;height:100%}
+.resource .btn{margin-top:auto}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-dark{background:var(--navy);color:#fff}
+.btn-soft{background:#edf7fa;color:#176b79}
+.btn-violet{background:#eeeaff;color:#4d43b9}
+.stat{font-size:2rem;font-weight:900;line-height:1}
+.progress{height:10px;background:#e6eef4;border-radius:99px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:99px;transition:.5s}
+.hero-panel{margin-top:30px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px}
+@media(max-width:760px){.hero-panel{grid-template-columns:1fr}}
+.mini{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:18px}
+.mini strong{font-size:1.7rem;display:block}
+.notice{border-left:5px solid var(--cyan);background:#eefbfc;border-radius:16px;padding:16px 18px}
+.notice strong{color:#0d6875}
+.timeline{display:grid;gap:12px}
+.step{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
+.step-no{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:900}
+.case{background:linear-gradient(135deg,#ffffff,#f1f8ff);border:1px solid #cfe0ee}
+.case-title{display:flex;gap:10px;align-items:center}
+.choice{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;padding:13px 14px;border-radius:13px;margin:8px 0;cursor:pointer}
+.choice:hover{border-color:#8fc7dc;background:#f5fcfd}
+.choice.correct{border-color:#32a979;background:#ecfbf5}
+.choice.wrong{border-color:#e26a7d;background:#fff1f4}
+.feedback{padding:13px 15px;border-radius:13px;margin-top:10px;font-weight:700}
+.locked{opacity:.55;filter:grayscale(.25)}
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.badge{padding:12px 14px;border-radius:15px;background:#f7f9fb;border:1px solid var(--line);font-weight:800}
+.badge.unlocked{background:#fff8e8;border-color:#f2d58c}
+.multimedia{min-height:170px;background:linear-gradient(135deg,#102a43,#1769aa);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.multimedia p{color:#dcecf7}
+.promptbox{background:#0b1f31;color:#eaf7ff;border-radius:18px;padding:18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9rem;white-space:pre-wrap}
+textarea,input{width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit;outline:none}
+textarea:focus,input:focus{border-color:#63b9ce;box-shadow:0 0 0 3px rgba(22,184,200,.12)}
+.footer{background:#0d2238;color:#d8e8f4;padding:45px 18px}
+.footer-inner{max-width:1180px;margin:auto}
+.footer h2{color:#fff}
+.footer small{color:#9fb8ca}
+.modal{position:fixed;inset:0;background:rgba(6,20,34,.62);display:none;place-items:center;z-index:100;padding:20px}
+.modal.open{display:grid}
+.modal-card{background:#fff;max-width:720px;width:100%;max-height:85vh;overflow:auto;border-radius:24px;padding:26px;box-shadow:0 30px 90px rgba(0,0,0,.3)}
+.close{float:right;border:0;background:#eef3f7;border-radius:10px;padding:7px 10px;cursor:pointer}
+.kicker{color:var(--blue);font-weight:900;text-transform:uppercase;font-size:.76rem;letter-spacing:.12em}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{padding:9px 0;border-bottom:1px dashed var(--line)}
+.checklist li:before{content:"✓";color:var(--mint);font-weight:900;margin-right:9px}
+.small{font-size:.88rem;color:var(--muted)}
+.quote{font-size:1.1rem;font-weight:800;line-height:1.45;color:var(--navy)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="topbar">
+    <div class="brand"><div class="brand-mark">🧠</div><div>NEUROEDUCA <span style="opacity:.55">360°</span></div></div>
+    <div class="score-pill">🏆 <span id="topXP">0</span> XP</div>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Maestría en Educación · Competencias Digitales y Estrategias Tecnológicas</div>
+    <h1>Aprender para <span>comprender.</span><br>Comprender para intervenir.</h1>
+    <p class="lead">Ecosistema educativo digital sobre <strong>trastornos del neurodesarrollo</strong> que articula recursos educativos abiertos, gamificación, multimedia, Diseño Universal para el Aprendizaje e inteligencia artificial generativa.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="go('ruta')">🚀 Iniciar misión</button>
+      <button class="btn btn-ghost" onclick="go('recursos')">📚 Explorar recursos</button>
+    </div>
+    <div class="hero-panel">
+      <div class="mini"><span class="eyebrow">Desafío central</span><strong>De la evidencia a la decisión pedagógica</strong><span>Una ruta de aprendizaje activa: descubrir → analizar → diseñar → argumentar → reflexionar.</span></div>
+      <div class="mini"><span class="eyebrow">Meta</span><strong>4 niveles</strong><span>+ casos · + decisiones · + retroalimentación</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="tab active" data-target="inicio">00 · Ecosistema</button>
+    <button class="tab" data-target="recursos">01 · REA</button>
+    <button class="tab" data-target="ruta">02 · Misión gamificada</button>
+    <button class="tab" data-target="caso">03 · Caso clínico-pedagógico</button>
+    <button class="tab" data-target="dua">04 · Intervenir con DUA</button>
+    <button class="tab" data-target="ia">05 · Tutor IA</button>
+    <button class="tab" data-target="multimedia">06 · Multimedia</button>
+    <button class="tab" data-target="creditos">07 · Créditos</button>
+  </div>
+</nav>
+
+<main>
+<section id="inicio" class="section active">
+  <div class="section-head">
+    <div><div class="kicker">Arquitectura pedagógica</div><h2>Un ecosistema, no una colección.</h2><p>Los cuatro productos previos se convierten en una experiencia articulada y navegable.</p></div>
+  </div>
+  <div class="grid grid-4">
+    <div class="card"><div class="icon">🔎</div><h3>Detectar</h3><p>Reconocer necesidades, fortalezas, intereses y ritmo de aprendizaje.</p><span class="tag">Diagnóstico</span></div>
+    <div class="card"><div class="icon">🧩</div><h3>Analizar</h3><p>Conectar lenguaje, motricidad y desarrollo cognitivo con evidencias.</p><span class="tag">Evidencia</span></div>
+    <div class="card"><div class="icon">🎯</div><h3>Intervenir</h3><p>Diseñar respuestas educativas flexibles mediante DUA y estrategias significativas.</p><span class="tag">Aplicación</span></div>
+    <div class="card"><div class="icon">🤖</div><h3>Reflexionar</h3><p>Usar IA generativa como tutor de preguntas, retroalimentación y metacognición.</p><span class="tag">Metacognición</span></div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">Objetivo integrador</div>
+      <p class="quote">“Analizar situaciones educativas vinculadas a los trastornos del neurodesarrollo y proponer intervenciones pedagógicas inclusivas, fundamentadas en evidencia y apoyadas por recursos digitales, multimedia e IA generativa.”</p>
+      <ul class="checklist">
+        <li>Comprender conceptos y relaciones clave.</li>
+        <li>Interpretar un caso y justificar decisiones.</li>
+        <li>Seleccionar recursos y estrategias pertinentes.</li>
+        <li>Reflexionar sobre el uso ético de la IA.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="kicker">Panel del explorador</div>
+      <div class="grid grid-2">
+        <div><span class="small">Progreso</span><div class="stat" id="statProgress">0%</div></div>
+        <div><span class="small">Nivel</span><div class="stat" id="level">1</div></div>
+        <div><span class="small">XP acumulada</span><div class="stat" id="xpBig">0</div></div>
+        <div><span class="small">Insignias</span><div class="stat" id="badgeCount">0</div></div>
+      </div>
+      <div style="height:12px"></div><div class="progress"><i id="progressBar" style="width:0%"></i></div>
+      <p class="small">Tu avance se guarda localmente en este navegador.</p>
+    </div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="notice"><strong>Ruta recomendada:</strong> comienza por los REA, completa la misión, resuelve el caso, construye una intervención DUA y termina con el tutor IA y el portafolio de reflexión.</div>
+</section>
+
+<section id="recursos" class="section">
+  <div class="section-head"><div><div class="kicker">Biblioteca abierta</div><h2>Los 4 productos integrados</h2><p>Cada recurso conserva su propósito, modalidad, accesibilidad y licencia declarados en el documento base.</p></div></div>
+  <div class="grid grid-2">
+    <article class="card resource">
+      <div><div class="icon">🗣️</div><span class="tag">Producto 1 · 1.1</span><h3>Intervención del lenguaje: movimiento, comunicación y aprendizaje</h3><p><strong>Autora:</strong> Katherine Aldas · Web interactiva · 12–15 min.</p><p>Fundamentos, componentes fonológico, léxico-semántico, morfosintáctico y pragmático; relación lenguaje-motricidad; estrategias; familia; caso y autoevaluación.</p></div>
+      <div><p class="small">CC BY-NC-SA 4.0 · Recurso responsivo, navegable y con retroalimentación.</p><a class="btn btn-blue" href="https://intervencion-lenguaje-movimiento.patricia93.chatgpt.site" target="_blank" rel="noopener">Abrir recurso ↗</a></div>
+    </article>
+    <article class="card resource">
+      <div><div class="icon">🤸</div><span class="tag">Producto 2 · 1.2</span><h3>Intervenciones psicomotrices basadas en evidencia</h3><p><strong>Autores:</strong> Andrés Dávila De Santis · Yudy Romero Medranda · Infografía · 35 min.</p><p>Fundamentos y estrategias de intervención psicomotriz; análisis crítico de cuál estrategia resulta más pertinente y por qué.</p></div>
+      <div><p class="small">CC BY 4.0 · Lenguaje claro y texto alternativo en imágenes representativas.</p><a class="btn btn-blue" href="https://notebook.google.com/notebook/c9b51d92-8b72-4582-95d2-55db2a763c79/artifact/f390b074-7319-491a-b8fd-ce9259c5d2d8" target="_blank" rel="noopener">Abrir infografía ↗</a></div>
+    </article>
+    <article class="card resource">
+      <div><div class="icon">🎥</div><span class="tag">Producto 3 · 2.1</span><h3>Intervención pedagógica para el desarrollo cognitivo</h3><p><strong>Autora:</strong> Andrea Alajo Anchatuña · Screencast MP4 · ~3 min.</p><p>Explica el desarrollo cognitivo y estrategias de intervención pedagógica eficaces para estudiantes con trastornos del neurodesarrollo.</p></div>
+      <div><p class="small">CC BY-SA 4.0 · Subtítulos y uso para visualización individual o discusión guiada.</p><a class="btn btn-blue" href="https://canva.link/l0gjtcexwiexqbs" target="_blank" rel="noopener">Abrir video ↗</a></div>
+    </article>
+    <article class="card resource">
+      <div><div class="icon">🎙️</div><span class="tag">Producto 4 · 2.2</span><h3>Voces de la Mente: comprendiendo el desarrollo cognitivo en el aula</h3><p><strong>Autora:</strong> Elsa Carina Aguagallo Costales · Micropodcast · 2–4 min.</p><p>Procesos mentales superiores, etapas del desarrollo cognitivo, construcción del conocimiento y aprendizaje adulto.</p></div>
+      <div><p class="small">CC BY-NC-SA 4.0 · Incluye transcripción escrita y lenguaje claro.</p><a class="btn btn-blue" href="https://drive.google.com/file/d/1ShN0Uv6M9KFco0xEhGGaLgP8bbWcXcUt/view?usp=sharing" target="_blank" rel="noopener">Abrir micropodcast ↗</a></div>
+    </article>
+  </div>
+</section>
+
+<section id="ruta" class="section">
+  <div class="section-head"><div><div class="kicker">Gamificación</div><h2>La Misión NeuroEduca</h2><p>Supera desafíos, gana XP y desbloquea insignias. La gamificación acompaña el aprendizaje: no sustituye la evaluación formativa.</p></div></div>
+  <div class="grid grid-3">
+    <div class="card"><span class="small">XP</span><div class="stat" id="xpRoute">0</div><p>Experiencia acumulada</p></div>
+    <div class="card"><span class="small">Nivel</span><div class="stat" id="levelRoute">1</div><p id="levelText">Explorador/a</p></div>
+    <div class="card"><span class="small">Próximo hito</span><div class="stat" id="nextGoal">100</div><p>XP para el siguiente nivel</p></div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="timeline">
+    <div class="card step"><div class="step-no">1</div><div><h3>Desbloqueo · Lenguaje + movimiento</h3><p>Explora el Producto 1 y responde el mini-desafío.</p><button class="btn btn-soft" onclick="miniQuiz(1)">Resolver desafío +20 XP</button></div></div>
+    <div class="card step"><div class="step-no">2</div><div><h3>Desbloqueo · Psicomotricidad basada en evidencia</h3><p>Compara estrategias y justifica una elección.</p><button class="btn btn-soft" onclick="miniQuiz(2)">Resolver desafío +25 XP</button></div></div>
+    <div class="card step"><div class="step-no">3</div><div><h3>Desbloqueo · Cognición y aula</h3><p>Relaciona atención, memoria, funciones ejecutivas y enseñanza.</p><button class="btn btn-soft" onclick="miniQuiz(3)">Resolver desafío +25 XP</button></div></div>
+    <div class="card step"><div class="step-no">4</div><div><h3>Desbloqueo · Decisión pedagógica</h3><p>Resuelve el caso y diseña una intervención inclusiva.</p><button class="btn btn-violet" onclick="switchTab('caso')">Ir al caso →</button></div></div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="card"><div class="kicker">Insignias</div><div class="badges" id="badges"></div></div>
+</section>
+
+<section id="caso" class="section">
+  <div class="section-head"><div><div class="kicker">Desafío auténtico</div><h2>Detectar → analizar → decidir</h2><p>Un caso pedagógico permite transferir la evidencia a una decisión contextualizada.</p></div></div>
+  <div class="card case">
+    <div class="case-title"><div class="icon">👩‍🏫</div><div><span class="tag">Caso simulado</span><h3>“Mateo y las instrucciones que se pierden”</h3></div></div>
+    <p>Mateo participa con interés en actividades prácticas, pero durante tareas con instrucciones largas pierde parte de la secuencia. En actividades grupales comunica algunas ideas mediante gestos y frases breves. En propuestas con apoyos visuales, modelado y pasos cortos aumenta su participación. El equipo docente desea intervenir sin reducir las expectativas de aprendizaje.</p>
+    <div class="grid grid-2">
+      <div><h3>Pregunta 1 · ¿Cuál sería el primer movimiento pedagógico?</h3>
+        <button class="choice" onclick="answer(this,false,'Antes de intervenir conviene valorar fortalezas, dificultades, intereses y ritmo de aprendizaje.')">Aplicar una única actividad estandarizada para todo el grupo.</button>
+        <button class="choice" onclick="answer(this,true,'Correcto: la valoración inicial permite identificar necesidades y fortalezas para ajustar la enseñanza.')">Realizar una valoración inicial y reconocer fortalezas, barreras e intereses.</button>
+        <button class="choice" onclick="answer(this,false,'Una etiqueta no sustituye una valoración educativa contextualizada.')">Asignar inmediatamente una etiqueta diagnóstica.</button>
+        <div class="feedback" id="fb1" style="display:none"></div>
+      </div>
+      <div><h3>Pregunta 2 · ¿Qué respuesta se alinea mejor con DUA?</h3>
+        <button class="choice" onclick="answer(this,false,'Limitar el aprendizaje a un único formato puede aumentar barreras.')">Presentar todo el contenido únicamente mediante texto.</button>
+        <button class="choice" onclick="answer(this,true,'Correcto: DUA propone diferentes formas de presentar, participar y demostrar lo aprendido.')">Combinar apoyos visuales, instrucciones segmentadas, modelado y distintas formas de demostrar el aprendizaje.</button>
+        <button class="choice" onclick="answer(this,false,'La retirada de apoyos no responde a las barreras identificadas.')">Eliminar apoyos para que el estudiante se adapte.</button>
+        <div class="feedback" id="fb2" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="card">
+    <div class="kicker">Matriz de decisión</div>
+    <h3>Formula tu intervención</h3>
+    <p class="small">Completa los campos y genera una síntesis para tu portafolio.</p>
+    <div class="grid grid-2">
+      <div><label><strong>Fortaleza observada</strong></label><input id="fortaleza" placeholder="Ej.: participa mejor en actividades prácticas"></div>
+      <div><label><strong>Barrera prioritaria</strong></label><input id="barrera" placeholder="Ej.: instrucciones extensas"></div>
+      <div><label><strong>Estrategia</strong></label><input id="estrategia" placeholder="Ej.: segmentar instrucciones + apoyo visual"></div>
+      <div><label><strong>Evidencia de progreso</strong></label><input id="evidencia" placeholder="Ej.: completa 4 de 5 pasos con autonomía"></div>
+    </div>
+    <div style="height:12px"></div>
+    <button class="btn btn-dark" onclick="buildPlan()">✨ Generar ficha de intervención</button>
+    <div id="planOut" style="margin-top:15px"></div>
+  </div>
+</section>
+
+<section id="dua" class="section">
+  <div class="section-head"><div><div class="kicker">Diseño Universal para el Aprendizaje</div><h2>Intervenir sin bajar las expectativas</h2><p>La adaptación se orienta a reducir barreras y ampliar las formas de acceso, participación y demostración del aprendizaje.</p></div></div>
+  <div class="grid grid-3">
+    <div class="card"><div class="icon">👁️</div><h3>Presentar</h3><p>Texto claro, apoyos visuales, organizadores gráficos, modelado y segmentación de instrucciones.</p></div>
+    <div class="card"><div class="icon">🙌</div><h3>Participar</h3><p>Actividades significativas, colaboración, juego educativo, práctica guiada y retroalimentación inmediata.</p></div>
+    <div class="card"><div class="icon">🧠</div><h3>Demostrar</h3><p>Permitir respuestas prácticas, orales, escritas o mediante otros formatos pertinentes al objetivo.</p></div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="grid grid-2">
+    <div class="card"><h3>Principios de una intervención de calidad</h3><ul class="checklist"><li>Parte de una valoración inicial.</li><li>Define objetivos individualizados, funcionales y progresivos.</li><li>Usa evaluación formativa y continua.</li><li>Integra familia y profesionales de apoyo cuando corresponda.</li><li>Relaciona las actividades con situaciones significativas.</li></ul></div>
+    <div class="card"><h3>Mini laboratorio de diseño</h3><p>Elige una barrera y una respuesta.</p><select id="barrierSel" style="width:100%;padding:13px;border:1px solid var(--line);border-radius:13px;font:inherit"><option>Instrucciones extensas</option><option>Dificultad para mantener la atención</option><option>Dificultad para expresar respuestas</option><option>Dificultad de coordinación motriz</option></select><div style="height:10px"></div><button class="btn btn-blue" onclick="duaIdea()">Proponer combinación DUA</button><div id="duaOut" style="margin-top:12px"></div></div>
+  </div>
+</section>
+
+<section id="ia" class="section">
+  <div class="section-head"><div><div class="kicker">Inteligencia artificial generativa</div><h2>Tutor IA · pregunta antes de responder</h2><p>La IA se integra como mediadora metacognitiva: ayuda a formular preguntas, contrastar decisiones y mejorar argumentos. La decisión pedagógica final permanece en manos del profesional.</p></div></div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Simulador de tutor socrático</h3>
+      <p>Escribe tu decisión pedagógica y recibe una pregunta para profundizar.</p>
+      <textarea id="iaInput" rows="6" placeholder="Mi intervención sería..."></textarea>
+      <div style="height:10px"></div><button class="btn btn-violet" onclick="tutor()">🤖 Pregúntame como tutor</button>
+      <div id="iaOut" style="margin-top:14px"></div>
+    </div>
+    <div class="card">
+      <h3>Prompt maestro para IA generativa</h3>
+      <div class="promptbox" id="prompt">Actúa como tutor socrático de posgrado en educación. Analiza el caso que te proporcionaré sobre trastornos del neurodesarrollo. No emitas diagnósticos clínicos. Haz una pregunta por vez para ayudarme a: 1) identificar fortalezas y barreras, 2) relacionar evidencia con la situación, 3) seleccionar estrategias pedagógicas, 4) incorporar principios DUA, 5) definir evidencias de progreso. Señala supuestos y pide justificación. Finaliza con una rúbrica breve de mi argumento.</div>
+      <div style="height:10px"></div><button class="btn btn-dark" onclick="copyPrompt()">📋 Copiar prompt</button>
+      <p class="small">Uso responsable: no introducir datos personales identificables. Verificar siempre las respuestas de IA frente a las fuentes académicas.</p>
+    </div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="notice"><strong>Transparencia:</strong> esta versión web incorpora una simulación local de tutor socrático y un prompt listo para una herramienta de IA generativa. No contiene una API privada ni envía automáticamente datos del estudiante a un servicio externo.</div>
+</section>
+
+<section id="multimedia" class="section">
+  <div class="section-head"><div><div class="kicker">Experiencia multimedia</div><h2>Aprender con diferentes puertas de entrada</h2><p>El ecosistema integra texto, interacción, infografía, video, audio y actividades.</p></div></div>
+  <div class="grid grid-3">
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">WEB</span><h3>Intervención del lenguaje</h3><p>Exploración interactiva + caso + autoevaluación.</p></div><a class="btn btn-primary" href="https://intervencion-lenguaje-movimiento.patricia93.chatgpt.site" target="_blank">Explorar ↗</a></div>
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">INFOGRAFÍA</span><h3>Intervenciones psicomotrices</h3><p>Lectura visual para analizar estrategias basadas en evidencia.</p></div><a class="btn btn-primary" href="https://notebook.google.com/notebook/c9b51d92-8b72-4582-95d2-55db2a763c79/artifact/f390b074-7319-491a-b8fd-ce9259c5d2d8" target="_blank">Explorar ↗</a></div>
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">VIDEO</span><h3>Desarrollo cognitivo</h3><p>Screencast de aproximadamente 3 minutos con subtítulos.</p></div><a class="btn btn-primary" href="https://canva.link/l0gjtcexwiexqbs" target="_blank">Ver ↗</a></div>
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">AUDIO</span><h3>Voces de la Mente</h3><p>Micropodcast de 2–4 minutos + transcripción.</p></div><a class="btn btn-primary" href="https://drive.google.com/file/d/1ShN0Uv6M9KFco0xEhGGaLgP8bbWcXcUt/view?usp=sharing" target="_blank">Escuchar ↗</a></div>
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">CASO</span><h3>Desafío auténtico</h3><p>Decisión pedagógica con retroalimentación inmediata.</p></div><button class="btn btn-primary" onclick="switchTab('caso')">Resolver →</button></div>
+    <div class="card multimedia"><div><span class="tag" style="background:rgba(255,255,255,.12);color:#fff">IA</span><h3>Tutor socrático</h3><p>Preguntas para argumentar, justificar y metacognitar.</p></div><button class="btn btn-primary" onclick="switchTab('ia')">Entrar →</button></div>
+  </div>
+</section>
+
+<section id="creditos" class="section">
+  <div class="section-head"><div><div class="kicker">Trazabilidad académica</div><h2>Créditos, licencias y referencias</h2><p>Información integrada a partir del documento de trabajo del Grupo 2.</p></div></div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Grupo 2 · Maestría en Educación</h3>
+      <ul class="checklist">
+        <li>Elsa Carina Aguagallo Costales</li>
+        <li>Andrea Salome Alajo Anchatuña</li>
+        <li>Katherine Nathaly Aldas Sanchez</li>
+        <li>Andrés David Davila De Santis</li>
+        <li>Yudy Paola Romero Medranda</li>
+      </ul>
+      <p class="small">Docente: Dr. Felipe Arévalo, PhD · Período 2026–2027 · Milagro – Ecuador.</p>
+    </div>
+    <div class="card">
+      <h3>Licencias de los productos</h3>
+      <p><span class="tag">Producto 1</span> CC BY-NC-SA 4.0</p>
+      <p><span class="tag">Producto 2</span> CC BY 4.0</p>
+      <p><span class="tag">Producto 3</span> CC BY-SA 4.0</p>
+      <p><span class="tag">Producto 4</span> CC BY-NC-SA 4.0</p>
+      <p class="small">La reutilización de cada recurso debe respetar su licencia y las atribuciones correspondientes.</p>
+    </div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="card">
+    <h3>Referencias principales documentadas</h3>
+    <div class="grid grid-2">
+      <p class="small">Feldman, H. M. (2019). <em>How young children learn language and speech</em>. Pediatrics in Review, 40(8), 398–411. DOI: 10.1542/pir.2017-0325.</p>
+      <p class="small">Gonzalez, S. L., Alvarez, V., & Nelson, E. L. (2019). <em>Do gross and fine motor skills differentially contribute to language outcomes?</em> Frontiers in Psychology, 10, 2670.</p>
+      <p class="small">Neumann, K. et al. (2024). <em>Clinical practice guideline: Interventions for developmental language delay and disorders</em>. Deutsches Ärzteblatt International, 121(5), 155–162.</p>
+      <p class="small">Corey, J. et al. (2024). <em>Digital motor intervention effects on motor performance of individuals with developmental disabilities: A systematic review</em>. Journal of Intellectual Disability Research, 68(11), 1221–1252.</p>
+      <p class="small">Alghadier, M. & Alhusayni, A. I. (2024). <em>Evaluating the efficacy of gross-motor-based interventions for children with developmental coordination disorder</em>. Journal of Clinical Medicine, 13(16), 4609.</p>
+      <p class="small">Sadozai, A. K. et al. (2024). <em>Executive function in children with neurodevelopmental conditions: A systematic review and meta-analysis</em>. Nature Human Behaviour, 8(12), 2357–2366.</p>
+      <p class="small">AlRawi, J. M. & AlKahtani, M. A. (2022). <em>Universal design for learning for educating students with intellectual disabilities: A systematic review</em>.</p>
+      <p class="small">Dehaene, S. (2020). <em>How We Learn: The New Science of Education and the Brain</em>. Allen Lane.</p>
+    </div>
+  </div>
+  <div style="height:18px"></div>
+  <div class="notice"><strong>Nota de implementación:</strong> este archivo está preparado como sitio estático. Puede abrirse localmente o publicarse en cualquier servicio de alojamiento de páginas estáticas. Los enlaces de los cuatro productos apuntan a las direcciones registradas en el documento base.</div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <h2>NEUROEDUCA 360°</h2>
+    <p>Un ecosistema educativo digital para transformar evidencia en decisiones pedagógicas inclusivas.</p>
+    <small>Grupo 2 · Maestría en Educación con mención en Docencia e Investigación en Educación Superior · Competencias Digitales y Estrategias Tecnológicas · 2026–2027</small>
+  </div>
+</footer>
+
+<div class="modal" id="modal"><div class="modal-card"><button class="close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+const state={xp:Number(localStorage.getItem('neuroedu_xp')||0), badges:JSON.parse(localStorage.getItem('neuroedu_badges')||'[]')};
+function save(){localStorage.setItem('neuroedu_xp',state.xp);localStorage.setItem('neuroedu_badges',JSON.stringify(state.badges));render()}
+function level(){return Math.max(1,Math.floor(state.xp/100)+1)}
+function render(){
+  const lv=level(), pct=Math.min(100,state.xp%100);
+  document.querySelectorAll('#topXP,#xpBig,#xpRoute').forEach(x=>x.textContent=state.xp);
+  document.querySelectorAll('#level,#levelRoute').forEach(x=>x.textContent=lv);
+  document.getElementById('statProgress').textContent=Math.min(100,Math.round(state.xp/4))+'%';
+  document.getElementById('progressBar').style.width=Math.min(100,Math.round(state.xp/4))+'%';
+  document.getElementById('nextGoal').textContent=100-(state.xp%100);
+  document.getElementById('levelText').textContent=lv===1?'Explorador/a':lv===2?'Analista':lv===3?'Diseñador/a':lv>=4?'Mentor/a':'';
+  document.getElementById('badgeCount').textContent=state.badges.length;
+  const all=[['Primer paso','Completa un desafío', '🌱'],['Detective de evidencias','Completa dos desafíos','🔎'],['Arquitecto DUA','Completa el laboratorio DUA','🎯'],['Mentor socrático','Usa el tutor IA','🤖'],['Decisión fundamentada','Resuelve el caso','🏆']];
+  document.getElementById('badges').innerHTML=all.map(b=>`<div class="badge ${state.badges.includes(b[0])?'unlocked':''}">${b[2]} ${b[0]} ${state.badges.includes(b[0])?'✓':'·'}</div>`).join('');
+}
+function addXP(n,badge){
+ state.xp+=n;if(badge&&!state.badges.includes(badge))state.badges.push(badge);save();
+}
+function switchTab(id){
+ document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.target===id));
+ window.scrollTo({top:document.querySelector('.nav').offsetTop-5,behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
+function go(id){switchTab(id)}
+function openModal(html){document.getElementById('modalBody').innerHTML=html;document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function miniQuiz(n){
+ const qs={
+  1:['¿Por qué relacionar movimiento y lenguaje puede ser pedagógicamente pertinente?',['Porque las experiencias de movimiento pueden ampliar oportunidades de exploración, interacción y asociación entre palabras, objetos y acciones.','Porque todo problema de lenguaje se origina en la motricidad.'],0],
+  2:['¿Qué caracteriza una intervención psicomotriz pertinente?',['Ejercicios aislados sin relación con el contexto.','Objetivos progresivos, actividades adaptadas y práctica significativa con retroalimentación.'],1],
+  3:['¿Qué enfoque permite presentar, participar y demostrar el aprendizaje de distintas maneras?',['Diseño Universal para el Aprendizaje.','Una única modalidad de evaluación.'],0]
+ };
+ const q=qs[n];
+ openModal(`<div class="kicker">Desafío ${n}</div><h2>${q[0]}</h2>${q[1].map((o,i)=>`<button class="choice" onclick="quizResult(this,${i===q[2]},${n})">${o}</button>`).join('')}<div id="quizfb"></div>`);
+}
+function quizResult(btn,ok,n){
+ if(ok){btn.classList.add('correct');document.getElementById('quizfb').innerHTML='<div class="feedback" style="background:#ecfbf5;color:#18714e">¡Excelente! Has conectado la evidencia con la decisión pedagógica. +'+(n===1?20:25)+' XP</div>';addXP(n===1?20:25,n===1?'Primer paso':n===2?'Detective de evidencias':'Detective de evidencias')}
+ else {btn.classList.add('wrong');document.getElementById('quizfb').innerHTML='<div class="feedback" style="background:#fff1f4;color:#9d344c">Revisa el recurso y vuelve a intentarlo. La respuesta requiere una mirada integral y contextualizada.</div>'}
+}
+function answer(btn,ok,msg){
+ const fb=btn.parentElement.querySelector('.feedback');fb.style.display='block';fb.textContent=msg;
+ btn.classList.add(ok?'correct':'wrong');
+ if(ok){addXP(10,'Decisión fundamentada')}
+}
+function buildPlan(){
+ const f=document.getElementById('fortaleza').value||'Fortaleza por precisar';
+ const b=document.getElementById('barrera').value||'Barrera por precisar';
+ const e=document.getElementById('estrategia').value||'Estrategia por precisar';
+ const ev=document.getElementById('evidencia').value||'Evidencia por precisar';
+ document.getElementById('planOut').innerHTML=`<div class="notice"><strong>Ficha de intervención</strong><br><b>Fortaleza:</b> ${esc(f)}<br><b>Barrera:</b> ${esc(b)}<br><b>Estrategia:</b> ${esc(e)}<br><b>Evidencia de progreso:</b> ${esc(ev)}<br><br><span class="small">Siguiente paso: justificar por qué esta estrategia reduce la barrera sin limitar el objetivo de aprendizaje.</span></div>`;
+ addXP(20,'Decisión fundamentada');
+}
+function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function duaIdea(){
+ const b=document.getElementById('barrierSel').value;
+ const map={
+  'Instrucciones extensas':'Segmentar en pasos + apoyo visual + modelado + comprobación de comprensión.',
+  'Dificultad para mantener la atención':'Actividades breves y significativas + señales visuales + pausas + retroalimentación inmediata.',
+  'Dificultad para expresar respuestas':'Ofrecer opciones oral, escrita, visual o práctica + tiempo de procesamiento + modelado.',
+  'Dificultad de coordinación motriz':'Graduar la tarea + práctica orientada a objetivos + materiales adaptados + múltiples formas de participación.'
+ };
+ document.getElementById('duaOut').innerHTML='<div class="feedback" style="background:#ecfbf5;color:#18714e"><strong>Combinación sugerida:</strong> '+map[b]+'</div>';
+ addXP(15,'Arquitecto DUA');
+}
+function tutor(){
+ const text=document.getElementById('iaInput').value.trim();
+ if(!text){document.getElementById('iaOut').innerHTML='<div class="feedback" style="background:#fff8e8">Escribe primero tu decisión pedagógica.</div>';return}
+ const questions=[
+  '¿Qué fortaleza del estudiante estás tomando como punto de partida y qué evidencia tienes de ella?',
+  '¿Qué barrera concreta estás intentando reducir y cómo comprobarás que realmente disminuye?',
+  '¿Por qué esta estrategia es coherente con el objetivo de aprendizaje y no solo con la dificultad observada?',
+  '¿Qué otra alternativa considerarías para ofrecer más de una forma de participación o demostración?',
+  '¿Cómo distinguirás una mejora real del aprendizaje de una simple mayor facilidad para completar la actividad?'
+ ];
+ const q=questions[Math.floor(Math.random()*questions.length)];
+ document.getElementById('iaOut').innerHTML='<div class="notice"><strong>🤖 Tutor:</strong> '+q+'</div>';
+ addXP(10,'Mentor socrático');
+}
+async function copyPrompt(){
+ const text=document.getElementById('prompt').innerText;
+ try{await navigator.clipboard.writeText(text);openModal('<div class="kicker">Listo</div><h2>Prompt copiado</h2><p>Ahora puedes pegarlo en tu herramienta de IA generativa preferida.</p>')}
+ catch(e){openModal('<div class="kicker">Prompt</div><h2>Selecciona y copia</h2><p>Tu navegador no permitió el acceso automático al portapapeles.</p>')}
+}
+render();
+</script>
+</body>
+</html>
