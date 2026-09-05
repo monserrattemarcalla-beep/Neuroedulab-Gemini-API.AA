@@ -58,12 +58,18 @@ Mantén un tono académico, práctico e inclusivo. No inventes evidencia cientí
     })
   });
 
-  const data = await response.json();
-  if (!response.ok) {
-    const detail = data?.error?.message || "La API de Gemini devolvió un error.";
-    throw new Error(detail);
-  }
+  const data = await response.json().catch(() => ({}));
 
+if (!response.ok) {
+  console.error("ERROR GEMINI:", response.status, JSON.stringify(data));
+
+  const detail =
+    data?.error?.message ||
+    JSON.stringify(data) ||
+    "La API de Gemini devolvió un error.";
+
+  throw new Error(`Gemini ${response.status}: ${detail}`);
+}
   if (typeof data.output_text === "string") return data.output_text;
 
   // Fallback por si la respuesta de la API cambia de estructura.
@@ -81,6 +87,7 @@ Mantén un tono académico, práctico e inclusivo. No inventes evidencia cientí
 const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "POST" && req.url === "/api/gemini") {
+      console.log("POST /api/gemini recibido");
       let body = "";
       req.on("data", chunk => body += chunk);
       req.on("end", async () => {
