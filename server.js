@@ -5,7 +5,7 @@ const path = require("path");
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
-const ROOT = path.join(__dirname, "public");
+const ROOT = __dirname;
 
 function send(res, status, type, body) {
   res.writeHead(status, {
