@@ -425,20 +425,62 @@ function duaIdea(){
  document.getElementById('duaOut').innerHTML='<div class="feedback" style="background:#ecfbf5;color:#18714e"><strong>Combinación sugerida:</strong> '+map[b]+'</div>';
  addXP(15,'Arquitecto DUA');
 }
-function tutor(){
- const text=document.getElementById('iaInput').value.trim();
- if(!text){document.getElementById('iaOut').innerHTML='<div class="feedback" style="background:#fff8e8">Escribe primero tu decisión pedagógica.</div>';return}
- const questions=[
-  '¿Qué fortaleza del estudiante estás tomando como punto de partida y qué evidencia tienes de ella?',
-  '¿Qué barrera concreta estás intentando reducir y cómo comprobarás que realmente disminuye?',
-  '¿Por qué esta estrategia es coherente con el objetivo de aprendizaje y no solo con la dificultad observada?',
-  '¿Qué otra alternativa considerarías para ofrecer más de una forma de participación o demostración?',
-  '¿Cómo distinguirás una mejora real del aprendizaje de una simple mayor facilidad para completar la actividad?'
- ];
- const q=questions[Math.floor(Math.random()*questions.length)];
- document.getElementById('iaOut').innerHTML='<div class="notice"><strong>🤖 Tutor:</strong> '+q+'</div>';
- addXP(10,'Mentor socrático');
+async function tutor(){
+const input = document.getElementById('iaInput');
+const output = document.getElementById('iaOut');
+const text = input.value.trim();
+
+if(!text){
+output.innerHTML = '<div class="feedback" style="background:#fff8e8">Escribe primero tu decisión pedagógica.</div>';
+return;
 }
+
+output.innerHTML = `     <div class="notice">       <strong>🤖 Tutor IA:</strong>       <p>Analizando tu situación...</p>     </div>
+  `;
+
+try {
+const response = await fetch('/api/gemini', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+scenario: text
+})
+});
+
+```
+const data = await response.json();
+
+if(!response.ok){
+  throw new Error(data.error || 'Error al conectar con Gemini.');
+}
+
+output.innerHTML = `
+  <div class="notice">
+    <strong>🤖 Tutor IA</strong>
+    <div style="margin-top:12px; white-space:pre-wrap;">${esc(data.text)}</div>
+  </div>
+`;
+
+addXP(10, 'Mentor socrático');
+```
+
+} catch(error) {
+console.error(error);
+
+```
+output.innerHTML = `
+  <div class="feedback" style="background:#fff1f4;color:#9d344c">
+    <strong>⚠️ No se pudo conectar con la IA.</strong>
+    <p>${esc(error.message)}</p>
+  </div>
+`;
+```
+
+}
+}
+
 async function copyPrompt(){
  const text=document.getElementById('prompt').innerText;
  try{await navigator.clipboard.writeText(text);openModal('<div class="kicker">Listo</div><h2>Prompt copiado</h2><p>Ahora puedes pegarlo en tu herramienta de IA generativa preferida.</p>')}
