@@ -426,59 +426,58 @@ function duaIdea(){
  addXP(15,'Arquitecto DUA');
 }
 async function tutor(){
-const input = document.getElementById('iaInput');
-const output = document.getElementById('iaOut');
-const text = input.value.trim();
+  const input = document.getElementById('iaInput');
+  const output = document.getElementById('iaOut');
+  const text = input.value.trim();
 
-if(!text){
-output.innerHTML = '<div class="feedback" style="background:#fff8e8">Escribe primero tu decisión pedagógica.</div>';
-return;
-}
+  if(!text){
+    output.innerHTML = '<div class="feedback" style="background:#fff8e8">Escribe primero tu decisión pedagógica.</div>';
+    return;
+  }
 
-output.innerHTML = `     <div class="notice">       <strong>🤖 Tutor IA:</strong>       <p>Analizando tu situación...</p>     </div>
+  output.innerHTML = `
+    <div class="notice">
+      <strong>🤖 Tutor IA:</strong>
+      <p>Analizando tu situación...</p>
+    </div>
   `;
 
-try {
-const response = await fetch('/api/gemini', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-scenario: text
-})
-});
+  try {
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        scenario: text
+      })
+    });
 
-```
-const data = await response.json();
+    const data = await response.json();
 
-if(!response.ok){
-  throw new Error(data.error || 'Error al conectar con Gemini.');
-}
+    if(!response.ok){
+      throw new Error(data.error || 'Error al conectar con Gemini.');
+    }
 
-output.innerHTML = `
-  <div class="notice">
-    <strong>🤖 Tutor IA</strong>
-    <div style="margin-top:12px; white-space:pre-wrap;">${esc(data.text)}</div>
-  </div>
-`;
+    output.innerHTML = `
+      <div class="notice">
+        <strong>🤖 Tutor IA</strong>
+        <div style="margin-top:12px; white-space:pre-wrap;">${esc(data.text)}</div>
+      </div>
+    `;
 
-addXP(10, 'Mentor socrático');
-```
+    addXP(10, 'Mentor socrático');
 
-} catch(error) {
-console.error(error);
+  } catch(error) {
+    console.error(error);
 
-```
-output.innerHTML = `
-  <div class="feedback" style="background:#fff1f4;color:#9d344c">
-    <strong>⚠️ No se pudo conectar con la IA.</strong>
-    <p>${esc(error.message)}</p>
-  </div>
-`;
-```
-
-}
+    output.innerHTML = `
+      <div class="feedback" style="background:#fff1f4;color:#9d344c">
+        <strong>⚠️ No se pudo conectar con la IA.</strong>
+        <p>${esc(error.message)}</p>
+      </div>
+    `;
+  }
 }
 
 async function copyPrompt(){
